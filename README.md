@@ -105,7 +105,7 @@ unsigned int k_printf(char *message, unsigned int line)
 
 All our kernel will do is clear the screen and write to it the string "Hello, world! Welcome to my kernel."
 
-Now the <code>linker.ld</code> script.
+Now the <code>link.ld</code> script.
 
 <pre>
 /*
