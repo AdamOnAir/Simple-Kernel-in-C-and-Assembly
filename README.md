@@ -4,7 +4,7 @@ Simple Kernel in C and Assembly
 Hello, world ! Today I'm going to show you how to write a kernel in C and a little bit of assembly. This is a simple kernel written in C and Assembly which could be loaded with the GRUB bootloader on an x86 system. This kernel will
 display a message on the screen and then hang. All the source code is available on my github [repository](https://github.com/debashisbarman/Simple-Kernel-in-C-and-Assembly).
 
-##Tools
+## Tools
 Before writing the kernel, make sure that the following tools are available in your system.
 <ul>
 <li>An x86 computer (of course)</li>
@@ -15,7 +15,7 @@ Before writing the kernel, make sure that the following tools are available in y
 <li>grub</li>
 </ul>
 
-##Let's start coding
+## Let's start coding
 We like to write everything in C, but we cannot avoid a little bit of assembly. We will write a small file in x86
 assembly-language that serves as the starting point for our kernel. 
 
@@ -31,11 +31,11 @@ section .text
 	dd - (0x1BADB002 + 0x00)	;checksum. m+f+c should be zero
 
 global start
-extern kmain	;kmain is defined in the c file
+extern k_main	;kmain is defined in the c file
 
 start:
 	cli	;block interrupts
-	call kmain
+	call k_main
 	hlt	;halt the CPU
 </pre>
 
@@ -125,26 +125,15 @@ SECTIONS
 
 That's it. All done.
 
-##Building the kernel
-We will now create object files from <code>kernel.asm</code> and <code>kernel.c</code> and then link it using our linker script.
+## Build the kernel
+Now, run :
 
 <pre>
-nasm -f elf32 kernel.asm -o kasm.o
+	make # Build
+	make clean # Remove build files
 </pre>
 
-Now we will run the assembler to create the object file <code>kasm.o</code> in ELF-32 bit format.
-
-<pre>
-gcc -m32 -c kernel.c -o kc.o
-</pre>
-
-Now the linking part,
-
-<pre>
-ld -m elf_i386 -T link.ld -o kernel kasm.o kc.o
-</pre>
-
-##Now run your kernel
+## Now run your kernel
 We will now run the kernel on the <code>qemu</code> emulator.
 
 <pre>
